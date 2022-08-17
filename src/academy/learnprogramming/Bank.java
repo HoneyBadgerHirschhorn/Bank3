@@ -67,7 +67,13 @@ public void createBranch(){
         System.out.println("Do you want to edit the customer list for branch "+branchName+" ?   Y or N");
         String choice2 = scanBranch.nextLine();
         if (Objects.equals(choice2, "y") || Objects.equals(choice2, "Y")) {
-            newBranch.setCustomers();
+            for (Branch branch : branchList){
+                if ((Objects.equals(branch.getBranchName(),branchName))){
+                    System.out.println(branch.getBranchName());
+                }
+            }
+            //
+            //newBranch.setCustomers();
             bankMenu();
         }
 
