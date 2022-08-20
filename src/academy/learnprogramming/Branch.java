@@ -6,13 +6,16 @@ import java.net.PortUnreachableException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Objects;
-public class Branch extends Bank {
-    Scanner scanner = new Scanner(System.in);
+public class Branch {
     Customer customer = new Customer();
+    Scanner scanner = new Scanner(System.in);
     public String branchName;
-    private ArrayList<Customer> customers = new ArrayList<Customer>();
+    private ArrayList<Customer> customers = new ArrayList<Customer>(0);
+
 
     public Branch (){
+    this.branchName = "default";
+    customers.add(customer);
     }
 
     public Branch(String name, ArrayList<Customer> customerList){
@@ -53,7 +56,7 @@ public class Branch extends Bank {
                         scanner.nextLine();
                         break;
                     case 4:
-                        bankMenu();
+                        new Bank().bankMenu();
                         break;
                 }
             }
@@ -62,19 +65,17 @@ public class Branch extends Bank {
 
     public void createCustomer() {
         Scanner createScanner = new Scanner(System.in);
-        System.out.println("Would you like to create a new customer file?    Y or N");
+        System.out.println("Please press Y to continue creating a customer file, or any other key to abort customer creation.");
         String choice = createScanner.nextLine();
         if (Objects.equals(choice, "y") || Objects.equals(choice, "Y")) {
             customer.setName(customer.enterName());
             customer.setTransactions(customer.enterTransactions());
             customers.add(new Customer(customer.getName(), customer.getTransactions()));
             System.out.println("You've added an account file for " + customer.getName() + ".");
-            createCustomer();
+            customerMenu();
         }
         if (!Objects.equals(choice, "y") && !Objects.equals(choice, "Y")) {
-            System.out.println("You chose not create a customer file. A blank placeholder will be created instead.");
-            new Bank().getCustomers().add(0, new Customer());
-
+            System.out.println("You chose not create a customer file.");
             customerMenu();
         }
         customerMenu();
@@ -111,7 +112,7 @@ public class Branch extends Bank {
                             customerMenu();
                         case 2:
                             customer.setTransactions(customer.enterTransactions());
-                            customers.set(customers.indexOf(customer),customer);
+                            customers.add(customers.indexOf(customer),customer);
                             customerMenu();
                     }
                 }
@@ -144,15 +145,8 @@ public class Branch extends Bank {
             customerMenu();
         }
         if (customers.size() > 0) {
-            int length = customers.size()+1;
-            for (int i = 0; i < customers.size(); i++) {
-                System.out.println("Name " + customers.get(i).getName());
-                if (customers.size() > 0){
-                    System.out.print("   Most recent transaction "+ customers.get(i).getTransactions().get(length));
-                }
-
-
-
+            for (Customer customer : customers){
+                System.out.println(customers.indexOf(customer)+"     "+customer.getName());
             }
         }
         customerMenu();
@@ -161,6 +155,11 @@ public class Branch extends Bank {
     public ArrayList<Customer> getCustomers(){
         return customers;
     }
+    public void setCustomersList(){
+        customers = new ArrayList<Customer>(0);
+        //customers.add(0,new Customer("Default",new ArrayList<Double>()));
+    }
+
 
     public String getBranchName(){
         return branchName;

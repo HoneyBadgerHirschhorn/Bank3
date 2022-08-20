@@ -7,9 +7,12 @@ public class Customer {
     Scanner scanner = new Scanner(System.in);
     private String name;
 
-    private ArrayList<Double> transactions = new ArrayList<Double>(0);
+    private ArrayList<Double> transactions = new ArrayList<Double>();
 
-    public Customer() {
+
+    public Customer(){
+        this.name = "default";
+        this.transactions.add(0,0.0);
     }
 
     public Customer(String name, ArrayList<Double> list) {
@@ -22,6 +25,7 @@ public class Customer {
     }
 
     public String enterName() {
+        Scanner nameScanner = new Scanner(System.in);
         System.out.println("Do you wish to enter a name for this account?  Y or N");
         String choice = scanner.nextLine();
         if (!Objects.equals(choice, "y") && !Objects.equals(choice, "Y")) {
@@ -30,7 +34,9 @@ public class Customer {
         }
         if (Objects.equals(choice, "y") || Objects.equals(choice, "Y")) {
             System.out.println("Please enter the customer's name.");
-            return scanner.nextLine();
+            String name = scanner.nextLine();
+            setName(name);
+            return name;
         }
         return null;
     }
